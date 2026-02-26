@@ -39,6 +39,14 @@ yarn-error.log*
 Thumbs.db
 desktop.ini
 
-# ===== Application config with secrets =====
-bookstore-backend/src/main/resources/application.properties
-bookstore-backend/src/main/resources/application.yml
+# ===== Environment Variables (Keep .env.example) =====
+**/.env
+!**/.env.example
+!**/.env.development
+!**/.env.production
+
+# ===== Local Configuration Files with Credentials =====
+**/application-local.properties
+**/run-with-supabase-local.bat
+**/run-with-supabase-local.ps1
+backend_log.txt

@@ -35,16 +35,21 @@ public class BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
     }
 
+    // Convert blank string to null to avoid UNIQUE constraint violation on isbn
+    private String blankToNull(String value) {
+        return (value == null || value.isBlank()) ? null : value;
+    }
+
     public Book createBook(BookDto.BookRequest request) {
         Book book = Book.builder()
                 .title(request.getTitle())
                 .author(request.getAuthor())
-                .genre(request.getGenre())
-                .isbn(request.getIsbn())
+                .genre(blankToNull(request.getGenre()))
+                .isbn(blankToNull(request.getIsbn()))
                 .price(request.getPrice())
-                .description(request.getDescription())
+                .description(blankToNull(request.getDescription()))
                 .stockQuantity(request.getStockQuantity())
-                .imageUrl(request.getImageUrl())
+                .imageUrl(blankToNull(request.getImageUrl()))
                 .build();
         return bookRepository.save(book);
     }
@@ -53,12 +58,12 @@ public class BookService {
         Book book = getBookById(id);
         book.setTitle(request.getTitle());
         book.setAuthor(request.getAuthor());
-        book.setGenre(request.getGenre());
-        book.setIsbn(request.getIsbn());
+        book.setGenre(blankToNull(request.getGenre()));
+        book.setIsbn(blankToNull(request.getIsbn()));
         book.setPrice(request.getPrice());
-        book.setDescription(request.getDescription());
+        book.setDescription(blankToNull(request.getDescription()));
         book.setStockQuantity(request.getStockQuantity());
-        book.setImageUrl(request.getImageUrl());
+        book.setImageUrl(blankToNull(request.getImageUrl()));
         return bookRepository.save(book);
     }
 

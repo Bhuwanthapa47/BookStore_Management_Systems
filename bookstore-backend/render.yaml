@@ -1,0 +1,22 @@
+# Render.com deployment configuration
+services:
+  # Backend API Service
+  - type: web
+    name: bookstore-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_PROFILE
+        value: prod
+      - key: SUPABASE_DB_URL
+        sync: false  # Set manually in Render dashboard
+      - key: SUPABASE_DB_USER
+        sync: false
+      - key: SUPABASE_DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRATION
+        value: 86400000
+      - key: FRONTEND_URL
+        value: https://your-frontend-url.onrender.com

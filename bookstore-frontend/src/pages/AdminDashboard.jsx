@@ -66,7 +66,11 @@ export default function AdminDashboard() {
             else { await createBook(payload); toast.success('Book added!'); }
             setShowModal(false);
             fetchBooks();
-        } catch (err) { toast.error(err.response?.data?.message || 'Failed to save book'); }
+        } catch (err) {
+            const status = err.response?.status;
+            const msg = err.response?.data?.message || err.message || 'Failed to save book';
+            toast.error(status ? `${status} – ${msg}` : msg);
+        }
         finally { setSaving(false); }
     };
 
